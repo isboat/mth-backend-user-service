@@ -1,16 +1,24 @@
+using System.Text.Json.Serialization;
+
 namespace UserService.Services.Privy
 {
     public interface IPrivyService
     {
-        Task<PrivyUser> VerifyTokenAsync(string privyToken);
+        Task<PrivyUser> VerifyTokenAsync(string privyToken, string expectedPrivyId);
     }
 
     public class PrivyUser
     {
         public string Id { get; set; } = null!;
-        public string? Email { get; set; }
-        public List<PrivyWallet> Wallets { get; set; } = new();
-        public PrivyUser? User { get; set; }
+
+        [JsonPropertyName("linked_accounts")]
+        public PrivyLinkedAccount[] LinkedAccounts { get; set; } = [];
+    }
+
+    public class PrivyLinkedAccount
+    {
+        public string Type { get; set; } = null!;
+        public string Address { get; set; } = null!;
     }
 
     public class PrivyWallet

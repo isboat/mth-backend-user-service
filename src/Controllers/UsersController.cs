@@ -41,7 +41,7 @@ namespace UserService.Controllers
                 }
 
                 // Verify Privy token
-                var privyUser = await _privyService.VerifyTokenAsync(request.PrivyToken);
+                var privyUser = await _privyService.VerifyTokenAsync(request.PrivyToken, request.PrivyUserId);
 
                 // Get or create user in MongoDB
                 var user = await _userService.GetOrCreateUserAsync(privyUser.Id, privyUser);

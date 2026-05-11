@@ -33,6 +33,7 @@ namespace UserService.Models
     public class ExchangeTokenRequest
     {
         public string PrivyToken { get; set; } = null!;
+        public string PrivyUserId { get; set; } = null!;
     }
 
     public class ExchangeTokenResponse

@@ -32,13 +32,22 @@ namespace UserService.Services
                 return MapToDto(existingUser);
             }
 
+            var emailType = privyUser.LinkedAccounts.FirstOrDefault(x => x.Type == "email");
+            if (emailType == null)
+            {
+                // throw exception
+                throw new Exception("Email type not found");
+            }
+
+            var walletType = privyUser.LinkedAccounts.FirstOrDefault(x => x.Type == "wallet");
+
             // Create new user from Privy data
             var newUser = new UserModel
             {
                 UserId = privyUserId,
-                Username = privyUser.Email ?? $"user_{privyUserId[..8]}",
-                Email = privyUser.Email,
-                WalletAddress = privyUser.Wallets?.FirstOrDefault()?.Address,
+                Username = emailType.Address ?? $"user_{privyUserId[..8]}",
+                Email = emailType.Address,
+                WalletAddress = walletType?.Address,
                 Role = UserRole.Authenticated,
                 Profile = new UserProfile(),
                 Preferences = new UserPreferences()
